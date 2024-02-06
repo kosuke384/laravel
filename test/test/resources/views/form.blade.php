@@ -6,10 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <p>{{$msg}}</p>
-    <h1>@yield('title')</h1>
-    <div>
-        @yield('content')
-    </div>
+    
 </body>
 </html>

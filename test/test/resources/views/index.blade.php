@@ -10,18 +10,32 @@
     <p>provider:{{$view_message}}</p>
     //ミドルウェア前処理
     <middleware>google.com</middleware>
-    //ミドルウェア後処理
-    <table>
-        @foreach ($date as $items)
-            <th>{{$items['name']}}</th>
-            <td>{{$items['email']}}</td>
-        @endforeach
-    </table>
+    
     <form method="post" action="other">
         @csrf
         <p></p>
-        <input type="text" name="msg">
-        <input type="submit">
+        @if (count($errors)>0)
+            <div>
+                <p>入力に問題があります</p>
+            </div>
+        @endif
+        <input type="text" name="msg"><tr>
+        @error('name')
+            {{$message}}
+        @enderror
+        <input type="text" name="name" value="{{old('name')}}">
+        <tr>
+        @error('email')
+            {{$message}}
+        @enderror
+        <input type="text" name="email" value="{{old('email')}}">
+        <tr>
+        @error('age')
+            {{$message}}
+        @enderror
+        <input type="text" name="age" value="{{old('age')}}">
+        <tr>
+        <input type="submit" name="send"><tr>
     </form>
     //コンポーネント
     @component('components.message')

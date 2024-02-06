@@ -19,5 +19,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('index', [testCountroller::class, 'index'])->middleware(HelloMiddleware::class);
-Route::get('other',[testCountroller::class,'other'])->name('other');
+Route::get('index', [testCountroller::class, 'index'])->middleware('hello');
+Route::post('other',[testCountroller::class,'other'])->name('other');

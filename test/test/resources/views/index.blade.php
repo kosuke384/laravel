@@ -13,7 +13,7 @@
     
     <form method="post" action="other">
         @csrf
-        <p></p>
+        <p>{{$msg}}</p>
         @if (count($errors)>0)
             <div>
                 <p>入力に問題があります</p>

@@ -19,7 +19,14 @@ class testCountroller extends Controller
     }
 
     public function other(Request $request){
-        
-        return view('other');
+        $validate_rule=[
+            'name'=>'required',
+            'email'=>'email',
+            'age'=>'numeric|between:0,150'
+        ];
+        $this->validate($request,$validate_rule);
+        return view('other',[
+            'msg'=>'正しく入力されました'
+        ]);
     }
 }

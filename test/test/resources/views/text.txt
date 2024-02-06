@@ -1,0 +1,35 @@
+//ミドルウェア後処理
+    <table>
+        @foreach ($date as $items)
+            <th>{{$items['name']}}</th>
+            <td>{{$items['email']}}</td>
+        @endforeach
+    </table>
+
+//バリデーションエラー
+    <form method="post" action="other">
+        @csrf
+        <p></p>
+        @if (count($errors)>0)
+            <div>
+                <p>入力に問題があります</p>
+            </div>
+        @endif
+        <input type="text" name="msg"><tr>
+        @if ($errors->has('name'))
+            <p>{{$errors->first('name')}}</p>
+        @endif
+        <input type="text" name="name" value="{{old('name')}}">
+        <tr>
+        @if ($errors->has('email'))
+            <p>{{$errors->first('email')}}</p>
+        @endif
+        <input type="text" name="email" value="{{old('email')}}">
+        <tr>
+        @if ($errors->has('age'))
+            <p>{{$errors->first('age')}}</p>
+        @endif
+        <input type="text" name="age" value="{{old('age')}}">
+        <tr>
+        <input type="submit" name="send"><tr>
+    </form>

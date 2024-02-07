@@ -5,11 +5,6 @@
 //セクション
 @section('form')
     <p>本文</p>
-    //プロバイダー
-    <p>controller:{{$message}}</p>
-    <p>provider:{{$view_message}}</p>
-    //ミドルウェア前処理
-    <middleware>google.com</middleware>
     
     <form method="post" action="other">
         @csrf
@@ -50,7 +45,6 @@
     //ファイル読み込み
     @include('components.message',['msg_title'=>'ok','msg_content'=>'content'])
 
-    @each('components.item',$data ,'item' )
 @endsection
 
 

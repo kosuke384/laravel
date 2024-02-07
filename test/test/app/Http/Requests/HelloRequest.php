@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Myrule;
 
 class HelloRequest extends FormRequest
 {
@@ -29,7 +30,16 @@ class HelloRequest extends FormRequest
         return [
             'name'=>'required',
             'email'=>'email',
-            'age'=>'numeric|between:0,150'
+            'age'=>['numeric',new Myrule(5)]
+        ];
+    }
+
+    public function messages(){
+        return [
+            'name.numeric'=>'名前は必ず入力してください',
+            'email.email'=>'メールアドレスが必要です',
+            'age.numeric'=>'整数でお願いします',
+            'age.hello'=>'偶数のみで受け付けます'
         ];
     }
 }

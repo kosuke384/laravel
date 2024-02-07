@@ -33,3 +33,131 @@
         <tr>
         <input type="submit" name="send"><tr>
     </form>
+
+
+//上部タグ名前変更
+@section('title','ブログ一覧')
+//継承
+    @extends('layout')
+//セクション
+@section('form')
+    <p>本文</p>
+    //プロバイダー
+    <p>controller:{{$message}}</p>
+    <p>provider:{{$view_message}}</p>
+    //ミドルウェア前処理
+    <middleware>google.com</middleware>
+    
+    <form method="post" action="other">
+        @csrf
+        <p>{{$msg}}</p>
+        @if (count($errors)>0)
+            <div>
+                <p>入力に問題があります</p>
+            </div>
+        @endif
+        <input type="text" name="msg"><tr>
+        @error('name')
+            {{$message}}
+        @enderror
+        <input type="text" name="name" value="{{old('name')}}">
+        <tr>
+        @error('email')
+            {{$message}}
+        @enderror
+        <input type="text" name="email" value="{{old('email')}}">
+        <tr>
+        @error('age')
+            {{$message}}
+        @enderror
+        <input type="text" name="age" value="{{old('age')}}">
+        <tr>
+        <input type="submit" name="send"><tr>
+    </form>
+    //コンポーネント
+    @component('components.message')
+    //スロット
+        @slot('msg_title')
+            CAUTION!
+        @endslot
+        @slot('msg_content')
+            これはメッセージです
+        @endslot
+    @endcomponent
+    //ファイル読み込み
+    @include('components.message',['msg_title'=>'ok','msg_content'=>'content'])
+
+    @each('components.item',$data ,'item' )
+@endsection
+
+
+
+
+//コントローラー
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Http\Requests\HelloRequest;
+use Validator;
+
+class testCountroller extends Controller
+{
+    public function index(Request $request){
+        $validator=Validator::make($request->query(),[
+            'id'=>'required',
+            'pass'=>'required'
+        ]);
+
+        if($validator->fails()){
+            $msg='クエリーに問題があります';
+        }else{
+            $msg='ID/PASSを受け付けました';
+        }
+
+        $data=[
+            ['name'=>'aaa','mail'=>'aaa@aaa.com'],
+            ['name'=>'bbb','mail'=>'bbb@bbb.com']
+        ];
+        return view('index',[
+            'data'=>$data,
+            'message'=>'コントローラーからのメッセージ',
+            'msg'=>$msg
+            /*'date'=>$request->date*/
+        ]);
+    }
+
+    public function other(Request $request){
+        $rules=[
+            'name'=>'required',
+            'email'=>'email',
+            'age'=>'numeric'
+        ];
+        $message=[
+            'name.required'=>'入力してください',
+            'email.email'=>'メールアドレスを入力してください',
+            'age.numeric'=>'年齢を入力してください',
+            'age.min'=>'年齢は０歳以上で記入してください',
+            'age.max'=>'年齢は150歳以下で設定してください'
+        ];
+        
+
+        $validator=Validator::make($request->all(),$rules,$message);
+        $validator->sometimes('age','min:0',function($input){
+            return is_numeric($input->age);
+        });
+
+        $validator->sometimes('age','max:200',function($input){
+            return is_numeric($input->age);
+        });
+        if($validator->fails()){
+            return redirect('index')
+            ->withErrors($validator)
+            ->withInput();
+        }
+        return view('other',[
+            'msg'=>'正しく入力されました'
+        ]);
+    }
+}

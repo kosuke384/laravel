@@ -5,33 +5,20 @@
 //セクション
 @section('form')
     <p>本文</p>
+    <table>
+        <tr><th>Name</th><th>Email</th><th>Age</th><th>更新</th></tr>
+        @foreach($items as $item)
+        <tr>
+            <td>{{$item->id}}</td>
+            <td>{{$item->name}}</td>
+            <td>{{$item->email}}</td>
+            <td>{{$item->age}}</td>
+            <td><a href="{{route('edit',['id'=>$item->id])}}">変更</a></td>
+        </tr>
+        @endforeach
+        <a href="{{route('create')}}">登録</a>
+    </table>
     
-    <form method="post" action="other">
-        @csrf
-        <p>{{$msg}}</p>
-        @if (count($errors)>0)
-            <div>
-                <p>入力に問題があります</p>
-            </div>
-        @endif
-        <input type="text" name="msg"><tr>
-        @error('name')
-            {{$message}}
-        @enderror
-        <input type="text" name="name" value="{{old('name')}}">
-        <tr>
-        @error('email')
-            {{$message}}
-        @enderror
-        <input type="text" name="email" value="{{old('email')}}">
-        <tr>
-        @error('age')
-            {{$message}}
-        @enderror
-        <input type="text" name="age" value="{{old('age')}}">
-        <tr>
-        <input type="submit" name="send"><tr>
-    </form>
     //コンポーネント
     @component('components.message')
     //スロット

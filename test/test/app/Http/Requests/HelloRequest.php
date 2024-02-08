@@ -30,7 +30,8 @@ class HelloRequest extends FormRequest
         return [
             'name'=>'required',
             'email'=>'email',
-            'age'=>['numeric',new Myrule(5)]
+            'age'=>['numeric',new Myrule(5)],
+            'msg'=>'required'
         ];
     }
 
@@ -39,7 +40,8 @@ class HelloRequest extends FormRequest
             'name.numeric'=>'名前は必ず入力してください',
             'email.email'=>'メールアドレスが必要です',
             'age.numeric'=>'整数でお願いします',
-            'age.hello'=>'偶数のみで受け付けます'
+            'age.hello'=>'偶数のみで受け付けます',
+            'msg.numeric'=>'入力してください'
         ];
     }
 }

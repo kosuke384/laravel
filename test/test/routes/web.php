@@ -21,3 +21,7 @@ Route::get('/', function () {
 
 Route::get('index', [testCountroller::class, 'index'])->middleware('hello');
 Route::post('other',[testCountroller::class,'other'])->name('other');
+Route::get('create',[testCountroller::class,'create'])->name('create');
+Route::post('create',[testCountroller::class,'store']);
+Route::get('edit',[testCountroller::class,'edit'])->name('edit');
+Route::post('edit',[testCountroller::class,'update']);

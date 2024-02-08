@@ -25,3 +25,6 @@ Route::get('create',[testCountroller::class,'create'])->name('create');
 Route::post('create',[testCountroller::class,'store']);
 Route::get('edit',[testCountroller::class,'edit'])->name('edit');
 Route::post('edit',[testCountroller::class,'update']);
+Route::get('delete',[testCountroller::class,'delete'])->name('delete');
+Route::post('destroy',[testCountroller::class,'destroy']);
+Route::get('show',[testCountroller::class,'show'])->name('show');

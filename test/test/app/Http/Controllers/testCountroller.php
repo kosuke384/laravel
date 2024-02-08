@@ -10,12 +10,7 @@ use Illuminate\Support\Facades\DB;
 class testCountroller extends Controller
 {
     public function index(Request $request){
-        if(isset($request->id)){
-            $param=['id'=>$request->id];
-            $items=DB::select('select * from people where id = :id',$param);
-        }else{
-            $items=DB::select('select * from people');
-        }
+        $items=DB::table('people')->get();
         return view('index',[
             'items'=>$items
             /*'date'=>$request->date*/
@@ -33,6 +28,15 @@ class testCountroller extends Controller
         ]);
         $response->cookie('msg',$msg,100);
         return $response;
+    }
+
+    public function show(Request $request){
+        $name=$request->name;
+        $items=DB::table('people')->where('name','like','%'.$name.'%')
+        ->orWhere('email','like','%'.$name.'%')->get();
+        return view('show',[
+            'items'=>$items
+        ]);
     }
 
     public function create(){
@@ -68,5 +72,19 @@ class testCountroller extends Controller
         DB::update('update people set name=:name,email=:email,age=:age where id = :id',$param);
         return redirect('index');
     
+    }
+
+    public function delete(Request $request){
+        $param=['id'=>$request->id];
+        $item=DB::select('select * from people where id = :id',$param);
+        return view('delete',[
+            'form'=>$item[0]
+        ]);
+    }
+
+    public function destroy(Request $request){
+        $param=['id'=>$request->id];
+        DB::delete('delete from people where id = :id',$param);
+        return redirect('index');
     }
 }

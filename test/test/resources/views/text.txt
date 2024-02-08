@@ -90,8 +90,40 @@
     @each('components.item',$data ,'item' )
 @endsection
 
+<input type="text" name="msg"><tr>
+        @error('name')
+            {{$message}}
+        @enderror
+        <input type="text" name="name" value="{{old('name')}}">
+        <tr>
+        @error('email')
+            {{$message}}
+        @enderror
+        <input type="text" name="email" value="{{old('email')}}">
+        <tr>
+        @error('age')
+            {{$message}}
+        @enderror
+        <input type="text" name="age" value="{{old('age')}}">
+        <tr>
 
 
+<form method="post" action="{{route('other')}}">
+        @csrf
+        <p>{{$msg}}</p>
+        @if (count($errors)>0)
+            <div>
+                <p>入力に問題があります</p>
+            </div>
+        @endif
+        <table>
+            @if ($errors->has('msg'))
+                <th>error</th><td>{{$errors->first('msg')}}</td>
+            @endif
+            <input type="text" name="msg" value="{{old('msg')}}">
+        </table>
+        <input type="submit" name="send"><tr>
+    </form>
 
 //コントローラー
 <?php
@@ -161,3 +193,9 @@ class testCountroller extends Controller
         ]);
     }
 }
+
+if($request->hasCookie('msg')){
+            $msg='Cookie'.$request->cookie('msg');
+        }else{
+            $msg='cookieはありません';
+        }

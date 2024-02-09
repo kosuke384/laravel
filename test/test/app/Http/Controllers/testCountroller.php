@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\DB;
 class testCountroller extends Controller
 {
     public function index(Request $request){
+        $items=DB::table('people')->orderBy('age','desc')->get();
+        /*//全データ取得
         $items=DB::table('people')->get();
+        */
         return view('index',[
             'items'=>$items
             /*'date'=>$request->date*/
@@ -31,9 +34,23 @@ class testCountroller extends Controller
     }
 
     public function show(Request $request){
-        $name=$request->name;
+        $page=$request->page;
+        $items=DB::table('people')
+        ->offset($page*2)
+        ->limit(2)->get();
+        /*
+        $min=$request->min;
+        $max=$request->max;
+        //複雑条件
+        $items=DB::table('people')
+        ->whereRaw('age >= ? and age <= ?',[$min,$max])->get();
+        */
+        
+
+        /*//複数条件
         $items=DB::table('people')->where('name','like','%'.$name.'%')
-        ->orWhere('email','like','%'.$name.'%')->get();
+        ->orWhere('email','like','%'.$name.'%')->get();*/
+
         return view('show',[
             'items'=>$items
         ]);
@@ -49,15 +66,22 @@ class testCountroller extends Controller
             'email'=>$request->email,
             'age'=>$request->age
         ];
+        DB::table('people')->insert($param);
+        /*SQL文のinsert
         DB::insert('insert into people(name,email,age) values(:name,:email,:age)',$param);
+        */
         return redirect('index');
     }
 
     public function edit(Request $request){
+        $item=DB::table('people')
+        ->where('id',$request->id)->first();
+        /*SQLでの取得
             $param=['id'=>$request->id];
             $item=DB::select('select * from people where id = :id',$param);    
+        */
         return view('edit',[
-            'form'=>$item[0],
+            'form'=>$item,
         ]);
     }
 
@@ -68,23 +92,31 @@ class testCountroller extends Controller
             'email'=>$request->email,
             'age'=>$request->age
         ];
-
+        DB::table('people')->where('id',$request->id)->update($param);
+        /*SQLでの更新
         DB::update('update people set name=:name,email=:email,age=:age where id = :id',$param);
+        */
         return redirect('index');
     
     }
 
     public function delete(Request $request){
+        $item=DB::table('people')->where('id',$request->id)->first();
+        /*SQLでの表示
         $param=['id'=>$request->id];
         $item=DB::select('select * from people where id = :id',$param);
+        */
         return view('delete',[
-            'form'=>$item[0]
+            'form'=>$item
         ]);
     }
 
     public function destroy(Request $request){
+        DB::table('people')->where('id',$request->id)->delete();
+        /*SQLでの削除
         $param=['id'=>$request->id];
         DB::delete('delete from people where id = :id',$param);
+        */
         return redirect('index');
     }
 }

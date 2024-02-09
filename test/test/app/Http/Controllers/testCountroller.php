@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class testCountroller extends Controller
 {
     public function index(Request $request){
-        $items=DB::table('people')->orderBy('age','desc')->get();
+        $items=DB::table('test')->orderBy('age','desc')->get();
         /*//全データ取得
         $items=DB::table('people')->get();
         */
@@ -35,7 +35,7 @@ class testCountroller extends Controller
 
     public function show(Request $request){
         $page=$request->page;
-        $items=DB::table('people')
+        $items=DB::table('test')
         ->offset($page*2)
         ->limit(2)->get();
         /*
@@ -66,7 +66,7 @@ class testCountroller extends Controller
             'email'=>$request->email,
             'age'=>$request->age
         ];
-        DB::table('people')->insert($param);
+        DB::table('test')->insert($param);
         /*SQL文のinsert
         DB::insert('insert into people(name,email,age) values(:name,:email,:age)',$param);
         */
@@ -74,7 +74,7 @@ class testCountroller extends Controller
     }
 
     public function edit(Request $request){
-        $item=DB::table('people')
+        $item=DB::table('test')
         ->where('id',$request->id)->first();
         /*SQLでの取得
             $param=['id'=>$request->id];
@@ -92,7 +92,7 @@ class testCountroller extends Controller
             'email'=>$request->email,
             'age'=>$request->age
         ];
-        DB::table('people')->where('id',$request->id)->update($param);
+        DB::table('test')->where('id',$request->id)->update($param);
         /*SQLでの更新
         DB::update('update people set name=:name,email=:email,age=:age where id = :id',$param);
         */
@@ -101,7 +101,7 @@ class testCountroller extends Controller
     }
 
     public function delete(Request $request){
-        $item=DB::table('people')->where('id',$request->id)->first();
+        $item=DB::table('test')->where('id',$request->id)->first();
         /*SQLでの表示
         $param=['id'=>$request->id];
         $item=DB::select('select * from people where id = :id',$param);
@@ -112,7 +112,7 @@ class testCountroller extends Controller
     }
 
     public function destroy(Request $request){
-        DB::table('people')->where('id',$request->id)->delete();
+        DB::table('test')->where('id',$request->id)->delete();
         /*SQLでの削除
         $param=['id'=>$request->id];
         DB::delete('delete from people where id = :id',$param);

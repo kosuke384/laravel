@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\testCountroller;
+use App\Http\Controllers\PersonController;
 use App\Http\Middleware\HelloMiddleware;
 
 /*
@@ -28,3 +29,7 @@ Route::post('edit',[testCountroller::class,'update']);
 Route::get('delete',[testCountroller::class,'delete'])->name('delete');
 Route::post('destroy',[testCountroller::class,'destroy']);
 Route::get('show',[testCountroller::class,'show'])->name('show');
+
+Route::get('person',[PersonController::class,'index']);
+Route::get('person/find',[PersonController::class,'find']);
+Route::post('person/find',[PersonController::class,'search']);

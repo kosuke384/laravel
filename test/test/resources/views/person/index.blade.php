@@ -6,14 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <table>
-        <th>Name</th><th>Email</th><th>Age</th>
+<tbody>
+        <!-- テーブルのボディ -->
         @foreach ($items as $item)
             <tr>
                 <td>{{$item->getData()}}</td>
-                
             </tr>
         @endforeach
-    </table>
+    </tbody>
 </body>
 </html>

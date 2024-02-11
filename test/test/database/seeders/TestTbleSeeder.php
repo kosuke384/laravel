@@ -30,6 +30,6 @@ class TestTbleSeeder extends Seeder
                 'age'=>26
             ]
             ];
-            DB::table('test')->insert($param);
+            DB::table('people')->insert($param);
     }
 }

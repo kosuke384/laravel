@@ -6,19 +6,19 @@
 @section('form')
     <p>本文</p>
     <table>
-        <tr><th>Name</th><th>Email</th><th>Age</th><th>詳細</th><th>更新</th><th>削除</th></tr>
+        <tr>
+            <th><a href="index?sort=name">name</a></th>
+            <th><a href="index?sort=email">email</a></th>
+            <th><a href="index?sort=age">age</a>Age</th>
+        </tr>
         @foreach($items as $item)
         <tr>
-            <td>{{$item->id}}</td>
-            <td>{{$item->name}}</td>
-            <td>{{$item->email}}</td>
-            <td>{{$item->age}}</td>
-            <td><a href="{{route('show',['id'=>$item->id])}}">詳細</a></td>
-            <td><a href="{{route('edit',['id'=>$item->id])}}">変更</a></td>
-            <td><a href="{{route('delete',['id'=>$item->id])}}">削除</a></td>
+        <tr><td>{{$item->name}}</td></tr>
+        <tr><td>{{$item->email}}</td></tr>
+        <tr><td>{{$item->age}}</td></tr>
         </tr>
         @endforeach
-        <a href="{{route('create')}}">登録</a>
+        {{$items->appends(['sort'=>$sort])->links()}}
     </table>
     
     //コンポーネント

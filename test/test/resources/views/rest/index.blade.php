@@ -6,6 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <p>index</p>
+    <table>
+        @foreach ($items as $item)
+            <tr><th>id:</th><td>{{$item->id}}</td></tr>
+            <tr><th>id:</th><td>{{$item->message}}</td></tr>
+        @endforeach
+    </table>
 </body>
 </html>

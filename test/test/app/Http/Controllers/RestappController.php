@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Restdata;
+use Illuminate\Support\Facades\DB;
 
 class RestappController extends Controller
 {
@@ -12,8 +13,10 @@ class RestappController extends Controller
      */
     public function index()
     {
-        $items=Restdata::all();
-        return $items->toArray();
+        $items=DB::table('resrdata')->simplePaginate(5);
+        return view('rest.index',[
+            'items'=>$items
+        ]);
     }
 
     /**

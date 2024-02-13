@@ -6,16 +6,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests\HelloRequest;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Person;
 
 class testCountroller extends Controller
 {
     public function index(Request $request){
-        $items=DB::table('test')->orderBy('age','desc')->get();
+        //$items=DB::table('people')->simplePaginate(5);
         /*//全データ取得
         $items=DB::table('people')->get();
         */
+        $sort=$request->sort;
+        $items=Person::orderBy($sort,'asc')->simplePaginate(5);
         return view('index',[
-            'items'=>$items
+            'items'=>$items,
+            'sort'=>$sort
             /*'date'=>$request->date*/
         ]);
     }
